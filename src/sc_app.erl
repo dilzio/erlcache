@@ -7,9 +7,15 @@
 % application
 -export([start/0, start/2, stop/1]).
 
+-define(WAIT_FOR_RESOURCES, 2500).
+
 % application callbacks
 start(_Type, _Args) ->
   ok = ensure_contact(), %% if ensure_contact doesn't evaluate to ok, exception will be thrown and system won't start
+  resource_discovery:add_local_resource(simple_cache, node()),
+  resource_discovery:add_target_resource_type(simple_cache),
+  resource_discovery:trade_resources(),
+  timer:sleep(?WAIT_FOR_RESOURCES),
   sc_store:init(),
   case sc_element_sup:start_link() of
     {ok, Pid} ->
