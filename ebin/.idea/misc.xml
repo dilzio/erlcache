@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="IdProvider" IDEtalkID="FFEFBF5D1519AD2EB4788578C8DBE531" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Erlang R15B03" project-jdk-type="Erlang SDK">
-    <output url="file://$PROJECT_DIR$/ebin" />
-  </component>
-</project>
-
