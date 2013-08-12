@@ -5,9 +5,15 @@
 -behaviour(application).
 
 % application
--export([start/0, start/2, stop/1]).
+-export([start/0, start/2, stop/1, bootstrap/0]).
 
 -define(WAIT_FOR_RESOURCES, 2500).
+
+bootstrap() ->
+    application:start(sasl),
+    mnesia:start(),
+    application:start(resource_discovery),
+    application:start(simple_cache).
 
 % application callbacks
 start(_Type, _Args) ->

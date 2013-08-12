@@ -86,13 +86,7 @@ handle_cast({trade_resources, {ReplyTo, Remotes}}, State) ->
   {noreply, State#state{found_resource_tuples = NewFound}}.
 
 handle_call({fetch_resources, Type}, _From, State) -> 
-  	Response = dict:find(Type, State#state.local_resource_tuples),
-	case Response of 
-	  error ->
-		  	{reply,dict:find(Type, State#state.found_resource_tuples), State};
-  	   _->
-		    {reply, Response, State}
-	 end.
+    {reply, dict:find(Type, State#state.found_resource_tuples), State}.
 
 handle_info(_Info, State) ->
   {noreply, State}.

@@ -1,5 +1,16 @@
-erlc -o /Users/dilzio/Projects/erlcache/ebin /Users/dilzio/Projects/erlcache/src/*.erl
-cp /Users/dilzio/Projects/erlcache/ebin/res/simple_cache.app /Users/dilzio/Projects/erlcache/simple_cache/ebin 
-cp /Users/dilzio/Projects/erlcache/ebin/sc*.beam /Users/dilzio/Projects/erlcache/simple_cache/ebin 
-cp /Users/dilzio/Projects/erlcache/ebin/simple_cache.beam /Users/dilzio/Projects/erlcache/simple_cache/ebin 
-cp /Users/dilzio/Projects/erlcache/ebin/rd*.beam /Users/dilzio/Projects/erlcache/resource_diebin 
+OUTDIR=./out/lib 
+SC_OUT_DIR=$OUTDIR/simple_cache/ebin 
+RD_OUT_DIR=$OUTDIR/resource_discovery/ebin 
+
+rm -rf $OUTDIR
+mkdir -p $SC_OUT_DIR
+mkdir -p $RD_OUT_DIR
+
+
+erlc +debug_info -o $SC_OUT_DIR ./src/simple_cache/*.erl
+cp ./res/simple_cache.app $SC_OUT_DIR
+
+erlc +debug_info -o $RD_OUT_DIR ./src/resource_discovery/*.erl
+cp ./res/resource_discovery.app $RD_OUT_DIR
+
+dialyzer -I ./out/lib/simple_cache/ebin/*.beam ./out/lib/resource_discovery/ebin
