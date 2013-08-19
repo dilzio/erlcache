@@ -15,6 +15,7 @@ start_link(Callback, IP, Port, UserArgs) ->
     start_child(Pid),
     {ok, Pid}.
 
+%starts a new gws_server child process using the spec.  Server is the PID of the supervisor process which should be used for the child
 start_child(Server) ->
     supervisor:start_child(Server, []).
 
