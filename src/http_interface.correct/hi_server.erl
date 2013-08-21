@@ -6,35 +6,39 @@
 -export([start_link/1, start_link/2]).
 
 %% gen_web_server callbacks
--export([init/1, get/3, delete/3, put/4, post/4, head/3, options/4, trace/4, other_methods/4]).
+-export([init/1, get/3, delete/3, put/4, post/4,
+         head/3, options/4, trace/4, other_methods/4]).
 
-%% API Impl
+%%%===================================================================
+%%% API
+
 start_link(Port) ->
-    error_logger:info_msg("Called hi_server:start_link with Port: ~p ~n", [Port]),
     gen_web_server:start_link(?MODULE, Port, []).
 
 start_link(IP, Port) ->
     gen_web_server:start_link(?MODULE, IP, Port, []).
+%%%===================================================================
+%%% gen_web_server callbacks
 
-
-%% Callback Impl
 init([]) ->
     {ok, []}.
 
-get({http_request, 'GET', {abs_path, <<"/",Key/bytes>>}, _}, _Head, _UserData) ->
+get({http_request, 'GET', {abs_path, <<"/",Key/bytes>>}, _},
+    _Head, _UserData) ->
     case simple_cache:lookup(Key) of
         {ok, Value} ->
             gen_web_server:http_reply(200, [], Value);
         {error, not_found} ->
-            gen_web_server:http_reply(404, "Sorry no such key.")
+            gen_web_server:http_reply(404, "Sorry, no such key.")
     end.
 
-delete({http_request, 'DELETE', {abs_path, <<"/",Key/bytes>>}, _}, _Head, _UserData) ->
+delete({http_request, 'DELETE', {abs_path, <<"/",Key/bytes>>}, _},
+       _Head, _UserData) ->
     simple_cache:delete(Key),
     gen_web_server:http_reply(200).
 
-
-put({http_request, 'PUT', {abs_path, <<"/",Key/bytes>>}, _}, _Head, Body, _UserData) ->
+put({http_request, 'PUT', {abs_path, <<"/",Key/bytes>>}, _},
+    _Head, Body, _UserData) ->
     simple_cache:insert(Key, Body),
     gen_web_server:http_reply(200).
 
