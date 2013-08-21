@@ -7,5 +7,6 @@
     {mnesia, "4.9"},
     {resource_discovery, "1"},
     {tcp_interface, "1"},
+    {http_interface, "1"},
     {simple_cache, "0.3.0"}
   ]}.

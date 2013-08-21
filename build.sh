@@ -4,12 +4,14 @@ SC_OUT_DIR=$OUTDIR/simple_cache/ebin
 RD_OUT_DIR=$OUTDIR/resource_discovery/ebin 
 TI_OUT_DIR=$OUTDIR/tcp_interface/ebin 
 GWS_OUT_DIR=$OUTDIR/gen_web_server/ebin 
+HI_OUT_DIR=$OUTDIR/http_interface/ebin 
 #clean
 rm -rf $OUTDIR
 mkdir -p $SC_OUT_DIR
 mkdir -p $RD_OUT_DIR
 mkdir -p $TI_OUT_DIR
 mkdir -p $GWS_OUT_DIR
+mkdir -p $HI_OUT_DIR
 
 #compile
 erlc +debug_info -o $SC_OUT_DIR ./src/simple_cache/*.erl
@@ -22,7 +24,10 @@ erlc +debug_info -o $TI_OUT_DIR ./src/tcp_interface/*.erl
 cp ./res/tcp_interface.app $TI_OUT_DIR
 
 erlc +debug_info -o $GWS_OUT_DIR ./src/gen_web_server/*.erl
-cp ./res/tcp_interface.app $TI_OUT_DIR
+cp ./res/gen_webserver.app $GWS_OUT_DIR
+
+erlc +debug_info -o $HI_OUT_DIR -pa $GWS_OUT_DIR ./src/http_interface/*.erl
+cp ./res/http_interface.app $HI_OUT_DIR
 
 #dialyze
 dialyzer -I ./out/lib/simple_cache/ebin/*.beam ./out/lib/resource_discovery/ebin

@@ -14,6 +14,7 @@ bootstrap() ->
     mnesia:start(),
     application:start(resource_discovery),
     application:start(tcp_interface),
+    application:start(http_interface),
     application:start(simple_cache).
 
 % application callbacks
